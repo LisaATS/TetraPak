@@ -1,0 +1,122 @@
+Camera As screen:
+    OnVisible: =Set(Photo,Blank());
+
+    Camera2 As camera:
+        BorderColor: =RGBA(215, 223, 240, 1)
+        BorderStyle: =BorderStyle.None
+        Camera: =0
+        Height: =Parent.Height
+        StreamRate: =1000
+        Visible: =false
+        Width: =Parent.Width
+        ZIndex: =1
+
+    Icon_CameraBack As icon.BackArrow:
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =45
+        Icon: =Icon.BackArrow
+        OnSelect: |-
+            =//Set(IsNewLicence,false);//推出相机后返回原Licence
+            Switch(Camera_Type,
+            "CollectPatrolNew",Navigate(Approve),
+            "CollectHWDraftMsg",Navigate(DraftEdit),
+            "CollectTEUDraftMsg",Navigate(DraftEdit),
+            "CollectFWDraftMsg",Navigate(DraftEdit),
+            "CollectLWDraftMsg",Navigate(DraftEdit),
+            "CollectLW2DraftMsg",Navigate(DraftEdit)
+            ,Navigate(ApplyLicence)
+            );
+        Width: =45
+        X: =24
+        Y: =23
+        ZIndex: =5
+
+    Icon1 As icon.Cancel:
+        Color: =RGBA(255, 255, 255, 1)
+        Icon: =Icon.Cancel
+        OnSelect: =Reset(AddMediaButton1);//清空photo
+        X: =24
+        Y: =1045
+        ZIndex: =6
+
+    Icon2 As icon.Check:
+        Color: =RGBA(255, 255, 255, 1)
+        Icon: =Icon.Check
+        OnSelect: |+
+            =//Camera_Type*摄像头来源*照片返回对应集合
+            If(Not(IsBlank(Photo)),Switch(
+                Camera_Type,
+            "CollectMsg",Patch(Gal_CollectMsg,Gallery5_6.Selected,{Photo:Photo}),
+            "CollectHWMsg",Patch(Gal_HW_NameID,Gallery5_7.Selected,{Photo:Photo}),
+            "CollectTEUMsg",Patch(Gal_TEU_NameID,Gallery5_4.Selected,{Photo:Photo}),
+            "CollectFWMsg",Patch(Gal_FW_NameID,Gallery5_5.Selected,{Photo:Photo}),
+            "CollectLWMsg",Patch(Gal_LW_NameID,Gallery5_2.Selected,{Photo:Photo}),
+            "CollectLW2Msg",Patch(Gal_LW_CommanderID,Gallery5_3.Selected,{Photo:Photo}),
+            "CollectPatrolNew",Patch(Gal_NormalPatrolNew,Gallery_PatrolAdd.Selected,{InspectionPhoto:Photo,InspectionStaff:PersonalMsg.UserName}),
+            "CollectHWDraftMsg",Patch(Col_DraftHW,Gal_DraftHW.Selected,{Photo:Photo}),
+            "CollectTEUDraftMsg",Patch(Col_DraftTEU,Gal_DraftTEU.Selected,{Photo:Photo}),
+            "CollectFWDraftMsg",Patch(Col_DraftFW,Gal_DraftFW.Selected,{Photo:Photo}),
+            "CollectLWDraftMsg",Patch(Col_DraftLW_Worker,Gal_DraftLW_Worker.Selected,{Photo:Photo}),
+            "CollectLW2DraftMsg",Patch(Col_DraftLW_Commander,Gal_DraftLW_Commander.Selected,{Photo:Photo})
+            ));
+            
+            Reset(AddMediaButton1);//清空photo
+            If(Not(IsBlank(Photo)||Photo=SampleImage),Switch(Camera_Type,
+            "CollectPatrolNew",Navigate(Approve),
+            "CollectHWDraftMsg",Navigate(DraftEdit),
+            "CollectTEUDraftMsg",Navigate(DraftEdit),
+            "CollectFWDraftMsg",Navigate(DraftEdit),
+            "CollectLWDraftMsg",Navigate(DraftEdit),
+            "CollectLW2DraftMsg",Navigate(DraftEdit)
+            
+            ,Navigate(ApplyLicence)));//没照片不返回
+            
+            //Set(IsNewLicence,false);//拍照后返回原Licence
+            
+            
+            
+            
+            
+            
+            
+            
+        X: =554
+        Y: =1045
+        ZIndex: =7
+
+    Icon6 As icon.CameraApertureFocus:
+        Color: =RGBA(50, 86, 160, 1)
+        Height: =94
+        Icon: =Icon.CameraAperture
+        OnSelect: =Set(Photo,Camera2.Stream)
+        Visible: =false
+        Width: =94
+        X: =273
+        Y: =1030
+        ZIndex: =8
+
+    AddMediaWithImage1 As group:
+        Height: =5
+        Width: =5
+        X: =40
+        Y: =40
+        ZIndex: =9
+
+        UploadedImage1 As image:
+            Height: =1136
+            Image: =If(IsBlank(AddMediaButton1.Media), SampleImage, AddMediaButton1.Media)
+            ImagePosition: =ImagePosition.Fill
+            Width: =640
+            X: =AddMediaButton1.X
+            ZIndex: =3
+
+        AddMediaButton1 As addMedia:
+            ChangePictureText: ="点击或单击以修改图片"
+            Color: =RGBA(255, 255, 255, 1)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =Parent.Height
+            OnChange: =Set(Photo,UploadedImage1.Image)
+            Size: =25
+            Width: =640
+            ZIndex: =4
+

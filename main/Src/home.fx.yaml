@@ -1,0 +1,512 @@
+home As screen:
+    OnVisible: |
+        =Set(Col_TotalDept,["生产","印前","印刷","复合","分切","维修","仓库","质量","EHS","WCM","CBRE"]);
+
+    Image2 As image:
+        Height: =253
+        Image: ='1694500910899'
+        Width: =620
+        X: =20
+        ZIndex: =1
+
+    Btn_NewApplication As button:
+        Align: =Align.Left
+        BorderColor: =ColorFade(Self.Fill,80%)
+        BorderThickness: =3
+        Height: =70
+        OnSelect: |
+            =Set(Vis_Del,true);
+            Set(Vis_Sub,true);
+            Set(Vis_Current,"Normal");
+            Set(Vis_Camera,false);
+            //Set(JudgeEditMode,"New");
+            Set(IsNewLicence,true);//判断是否从主页进入，需要选择NormalLicence
+            ClearCollect(Gal_Ispatch,{Value:true});//用于判断是否漏填
+            Set(JudgeEditMode,"New");
+            Refresh(TPL_Login);
+            
+            
+            //创建一条新的申请界面
+            Set(NewProjID,First(Sort(TPL_NormalLicence,ProjID,SortOrder.Descending)).ProjID+1);
+            
+            ClearCollect(
+                Licences, 
+                {LicenceN: "Normal", State: true },
+                {LicenceN: "High", State: Checkbox_Heights.Value },
+                {LicenceN: "Lifting", State: Checkbox_Hoisting.Value },
+                {LicenceN: "Confined Space", State: Checkbox_Limited.Value },
+                {LicenceN: "Hot", State: Checkbox_HotWork.Value },
+                {LicenceN: "Temporary Electricity", State: Checkbox_TemporaryElectricity.Value }
+            );
+            
+            //各个作业安全控制条例
+            ClearCollect(Gal_HighWorkSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="High Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_ConfinedSpaceSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Confined Space Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_LiftingWorkControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Lifting Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_HotWorkSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Hot Work"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_TemporaryElectricityUseWorkSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Temporary Electricity Use Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            
+            
+            //High表初始化
+            ClearCollect(
+                HW_Tools, 
+                {ToolsN: "自动升降平台/曲臂车", State: Checkbox_Tools1.Value },
+                {ToolsN: "脚手架", State: Checkbox_Tools2.Value },
+                {ToolsN: "梯子", State: Checkbox_Tools3.Value }
+            );
+            
+            /*
+            ClearCollect(Gal_CollectMsg,{ID_Type:"身份证",Photo:SampleImage});//创建一条新记录*资质证书和身份证照片收集
+            ClearCollect(Gal_HW_NameID,{Name:"",ID:"",Photo:SampleImage});//创建一条新记录*HighWork姓名和身份证/照片
+            ClearCollect(Gal_LW_EquipmentsID,{Equipments:"",ID:""});//创建一条新记录*吊装设备和编号
+            ClearCollect(Gal_LW_NameID,{Name:"",ID:"",Photo:SampleImage});//创建一条新记录*吊装人员和身份证号码/照片
+            ClearCollect(Gal_LW_CommanderID,{Name:"",ID:"",Photo:SampleImage});//创建一条新记录*指挥人员和证书编号/照片
+            ClearCollect(Gal_HW_NameID,{Name:"",ID:"",Photo:SampleImage});//创建一条新记录*动火作业人员姓名和证书编号/照片
+            ClearCollect(Gal_TEU_NameID,{Name:"",ID:"",Photo:SampleImage});//创建一条新记录*临时用电作业人员姓名和证书编号/照片
+            Set(NewProjID,First(Sort(TPL_NormalLicence,ProjID,SortOrder.Descending)).ProjID+1);//创建一条新记录
+            */
+            
+            //初始化
+            Reset(Dropdown_EndTime_1);
+            Reset(Dropdown_AppliDept);
+            Reset(TextInput_OpDirector_2);
+            Reset(TextInput_OpUnit_6);
+            Reset(TextInput_OpUnit);
+            Reset(TextInput_ProjLeder);
+            Reset('TextInput_ProjLederM/P');
+            Reset(TextInput_OpDirector);
+            Reset('TextInput_OpDirectorM/P');
+            Reset(ComboBox_OnSiteGuardian);
+            Reset('TextInputTextInput_OnSiteGuardianM/P');
+            Reset(DatePicker_StartDate);
+            Reset(Dropdown_StartTime);
+            Reset(DatePicker_EndDate);
+            Reset(Dropdown_EndTime);
+            Reset(Dropdown_StartTime_1);
+            Reset(TextInput_OpAr);
+            Reset(TextInput_MainTools);
+            Reset(Checkbox_Heights);
+            Reset(Checkbox_Hoisting);
+            Reset(Checkbox_Limited);
+            Reset(Checkbox_HotWork);
+            Reset(Checkbox_TemporaryElectricity);
+            Reset(TextInput_OpCountent);
+            Reset(Radio_IsPatrol);
+            Reset(DataCardValue17_1);
+            Reset(DataCardValue17);
+            Reset(ComboBox1);
+            Reset(TextInput_OtherCoWoker);
+            Set(Vis_Current,"Normal");
+            
+            
+            
+            //创建一条新的申请界面
+            Set(NewProjID,First(Sort(TPL_NormalLicence,ProjID,SortOrder.Descending)).ProjID+1);
+            
+            ClearCollect(
+                Licences, 
+                {LicenceN: "Normal", State: true },
+                {LicenceN: "High", State: Checkbox_Heights.Value },
+                {LicenceN: "Lifting", State: Checkbox_Hoisting.Value },
+                {LicenceN: "Confined Space", State: Checkbox_Limited.Value },
+                {LicenceN: "Hot", State: Checkbox_HotWork.Value },
+                {LicenceN: "Temporary Electricity", State: Checkbox_TemporaryElectricity.Value }
+            );
+            
+            //各个作业安全控制条例
+            ClearCollect(Gal_HighWorkSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="High Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_ConfinedSpaceSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Confined Space Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_LiftingWorkControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Lifting Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_HotWorkSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Hot Work"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_TemporaryElectricityUseWorkSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Temporary Electricity Use Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            
+            //High表初始化
+            ClearCollect(
+                HW_Tools, 
+                {ToolsN: "自动升降平台/曲臂车", State: Checkbox_Tools1.Value },
+                {ToolsN: "脚手架", State: Checkbox_Tools2.Value },
+                {ToolsN: "梯子", State: Checkbox_Tools3.Value }
+            );
+            Clear(Gal_CollectMsg);
+            Clear(Gal_HW_NameID);
+            Clear(Gal_LW_EquipmentsID);
+            Clear(Gal_LW_NameID);
+            Clear(Gal_LW_CommanderID);
+            Clear(Gal_FW_NameID);
+            Clear(Gal_TEU_NameID);
+            
+            //2
+            Reset(Radio_HWLevel);
+            Reset(TextInput_HWHazard1);
+            Reset(TextInput_HWHazard2);
+            Reset(TextInput_HWHazard3);
+            Reset(Checkbox_Tools1);
+            Reset(Checkbox_Tools2);
+            Reset(Checkbox_Tools3);
+            Reset(TextInput_HWOtherTools);
+            Reset(DataCardValue_ConstructionSchemeHigh);
+            
+            //3
+            Reset(TextInput_SuspendedObject);
+            Reset(TextInput_SuspendedObjectWeight);
+            Reset(TextInput_LiftingCapacity);
+            Reset(TextInput_LWHazard1);
+            Reset(TextInput_LWHazard2);
+            Reset(TextInput_LWHazard3);
+            Reset(DataCardValue_ConstructionSchemeLifting);
+            
+            //4
+            Reset(TextInput_CSW_Worker);
+            Reset(TextInput_CSWHazard1);
+            Reset(TextInput_CSWHazard2);
+            Reset(TextInput_CSWHazard3);
+            Reset(DataCardValue_ConstructionSchemeConfined);
+            Reset(TextInput_Ventilation);
+            
+            //5
+            Reset(TextInput_FWHazard1);
+            Reset(TextInput_FWHazard2);
+            Reset(TextInput_FWHazard3);
+            Reset(TextInput_FWTools);
+            Reset(Radio_FWLevel);
+            Reset(TextInput_FWHazard1_4);
+            Reset(TextInput_FWHazard1_5);
+            Reset(TextInput_FWHazard1_6);
+            Reset(Dropdown_OpDept_4);
+            Reset(DataCardValue_ConstructionSchemeHot);
+            Reset(TextInput_FWOtherTool);
+            Reset(TextInput_FWOtherToolNumber);
+            
+            //6
+            Reset(TextInput_TotalLoad);
+            Reset(TextInput_WorkingVoltage);
+            Reset(TextInput_PowerAccessPoint);
+            Reset(TextInput_TEUHazard1);
+            Reset(TextInput_TEUHazard2);
+            Reset(TextInput_TEUHazard3);
+            Reset(DataCardValue_ConstructionSchemeTemporaryElectricity);
+            
+            Set(Ispatch,true);
+            
+            
+            
+            Set(Ispatch,true);
+            Navigate(ApplyLicence);//创建新记录
+        PaddingLeft: =34
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =20
+        Text: ="新建申请"
+        Width: =640
+        Y: =439
+        ZIndex: =2
+
+    Btn_ChangeUser As button:
+        Align: =Align.Left
+        BorderColor: =ColorFade(Self.Fill,80%)
+        BorderThickness: =3
+        Height: =70
+        OnSelect: =Navigate(Login)
+        PaddingLeft: =34
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =20
+        Text: ="切换账号"
+        Width: =640
+        Y: =898
+        ZIndex: =4
+
+    Label5 As label:
+        Color: =RGBA(0, 18, 107, 1)
+        Height: =73
+        Overflow: =Overflow.Scroll
+        PaddingLeft: =12
+        Size: =21
+        Text: =PersonalMsg.Email
+        Width: =620
+        X: =20
+        Y: =341
+        ZIndex: =5
+
+    Label5_1 As label:
+        Color: =RGBA(0, 18, 107, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =45
+        PaddingLeft: =12
+        Size: =24
+        Text: =PersonalMsg.UserName
+        Width: =387
+        X: =20
+        Y: =293
+        ZIndex: =6
+
+    Btn_Approver_2 As button:
+        Align: =Align.Left
+        BorderColor: =ColorFade(Self.Fill,80%)
+        BorderThickness: =3
+        Height: =70
+        OnSelect: =Navigate(Search)
+        PaddingLeft: =34
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =20
+        Text: ="施工单审批"
+        Width: =640
+        Y: =579
+        ZIndex: =7
+
+    Button2_2 As button:
+        Align: =Align.Left
+        BorderColor: =ColorFade(Self.Fill,80%)
+        BorderThickness: =3
+        Height: =70
+        OnSelect: |+
+            =
+            ClearCollect(List_Login,TPL_Login);
+            
+            //如果在表里就获取个人信息,不在表中则获取当前用户信息
+            If(Not(IsEmpty(Filter(List_Login,UserName=Office365Users.MyProfile().DisplayName))),
+            Set(PersonalMsg,First(Filter(List_Login,UserName=Office365Users.MyProfile().DisplayName))),
+            Set(PersonalMsg,{UserName:Office365Users.MyProfile().DisplayName,IsHod:false}));
+            
+            
+            
+            
+        PaddingLeft: =34
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =20
+        Text: ="退回初始账户"
+        Width: =640
+        Y: =968
+        ZIndex: =8
+
+    Btn_NewApplication_1 As button:
+        Align: =Align.Left
+        BorderColor: =ColorFade(Self.Fill,80%)
+        BorderThickness: =3
+        DisplayMode: |-
+            =If(PersonalMsg.Email in Concat(Filter(TPL_Login,Administrator=true),Email,";"),DisplayMode.Edit,DisplayMode.Disabled)
+            
+            //DisplayMode.Edit
+        Height: =70
+        OnSelect: |-
+            =Set(Vis_Manage,"安全条例管理");
+            Set(FormState,"Modify");
+            Navigate(Manage);
+        PaddingLeft: =34
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =20
+        Text: ="管理页面"
+        Width: =640
+        Y: =649
+        ZIndex: =9
+
+    Rectangle9 As rectangle:
+        Fill: =RGBA(136, 160, 209, 1)
+        Height: =4
+        Width: =640
+        Y: =241
+        ZIndex: =10
+
+    Btn_NewApplication_2 As button:
+        Align: =Align.Left
+        BorderColor: =ColorFade(Self.Fill,80%)
+        BorderThickness: =3
+        Height: =70
+        OnSelect: |
+            =Set(Vis_Del,true);
+            Set(Vis_Sub,true);
+            Set(Vis_Current,"Normal");
+            Set(Vis_Camera,false);
+            Set(IsNewLicence,true);//判断是否从主页进入，需要选择NormalLicence
+            ClearCollect(Gal_Ispatch,{Value:true});//用于判断是否漏填
+            Set(JudgeEditMode,"New");
+            
+            
+            //创建一条新的申请界面
+            Set(NewProjID,First(Sort(TPL_NormalLicence,ProjID,SortOrder.Descending)).ProjID+1);
+            
+            ClearCollect(
+                Licences, 
+                {LicenceN: "Normal", State: true },
+                {LicenceN: "High", State: Checkbox_Heights.Value },
+                {LicenceN: "Lifting", State: Checkbox_Hoisting.Value },
+                {LicenceN: "Confined Space", State: Checkbox_Limited.Value },
+                {LicenceN: "Hot", State: Checkbox_HotWork.Value },
+                {LicenceN: "Temporary Electricity", State: Checkbox_TemporaryElectricity.Value }
+            );
+            
+            //各个作业安全控制条例
+            ClearCollect(Gal_HighWorkSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="High Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_ConfinedSpaceSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Confined Space Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_LiftingWorkControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Lifting Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_HotWorkSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Hot Work"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_TemporaryElectricityUseWorkSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Temporary Electricity Use Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            
+            
+            //High表初始化
+            ClearCollect(
+                HW_Tools, 
+                {ToolsN: "自动升降平台/曲臂车", State: Checkbox_Tools1.Value },
+                {ToolsN: "脚手架", State: Checkbox_Tools2.Value },
+                {ToolsN: "梯子", State: Checkbox_Tools3.Value }
+            );
+            
+            /*
+            ClearCollect(Gal_CollectMsg,{ID_Type:"身份证",Photo:SampleImage});//创建一条新记录*资质证书和身份证照片收集
+            ClearCollect(Gal_HW_NameID,{Name:"",ID:"",Photo:SampleImage});//创建一条新记录*HighWork姓名和身份证/照片
+            ClearCollect(Gal_LW_EquipmentsID,{Equipments:"",ID:""});//创建一条新记录*吊装设备和编号
+            ClearCollect(Gal_LW_NameID,{Name:"",ID:"",Photo:SampleImage});//创建一条新记录*吊装人员和身份证号码/照片
+            ClearCollect(Gal_LW_CommanderID,{Name:"",ID:"",Photo:SampleImage});//创建一条新记录*指挥人员和证书编号/照片
+            ClearCollect(Gal_HW_NameID,{Name:"",ID:"",Photo:SampleImage});//创建一条新记录*动火作业人员姓名和证书编号/照片
+            ClearCollect(Gal_TEU_NameID,{Name:"",ID:"",Photo:SampleImage});//创建一条新记录*临时用电作业人员姓名和证书编号/照片
+            Set(NewProjID,First(Sort(TPL_NormalLicence,ProjID,SortOrder.Descending)).ProjID+1);//创建一条新记录
+            */
+            
+            //初始化
+            Reset(Dropdown_EndTime_1);
+            Reset(Dropdown_AppliDept);
+            Reset(TextInput_OpDirector_2);
+            Reset(TextInput_OpUnit_6);
+            Reset(TextInput_OpUnit);
+            Reset(TextInput_ProjLeder);
+            Reset('TextInput_ProjLederM/P');
+            Reset(TextInput_OpDirector);
+            Reset('TextInput_OpDirectorM/P');
+            Reset(ComboBox_OnSiteGuardian);
+            Reset('TextInputTextInput_OnSiteGuardianM/P');
+            Reset(DatePicker_StartDate);
+            Reset(Dropdown_StartTime);
+            Reset(DatePicker_EndDate);
+            Reset(Dropdown_EndTime);
+            Reset(Dropdown_StartTime_1);
+            Reset(TextInput_OpAr);
+            Reset(TextInput_MainTools);
+            Reset(Checkbox_Heights);
+            Reset(Checkbox_Hoisting);
+            Reset(Checkbox_Limited);
+            Reset(Checkbox_HotWork);
+            Reset(Checkbox_TemporaryElectricity);
+            Reset(TextInput_OpCountent);
+            Reset(Radio_IsPatrol);
+            Reset(DataCardValue17_1);
+            Reset(DataCardValue17);
+            Reset(ComboBox1);
+            Reset(TextInput_OtherCoWoker);
+            Set(Vis_Current,"Normal");
+            
+            
+            
+            //创建一条新的申请界面
+            Set(NewProjID,First(Sort(TPL_NormalLicence,ProjID,SortOrder.Descending)).ProjID+1);
+            
+            ClearCollect(
+                Licences, 
+                {LicenceN: "Normal", State: true },
+                {LicenceN: "High", State: Checkbox_Heights.Value },
+                {LicenceN: "Lifting", State: Checkbox_Hoisting.Value },
+                {LicenceN: "Confined Space", State: Checkbox_Limited.Value },
+                {LicenceN: "Hot", State: Checkbox_HotWork.Value },
+                {LicenceN: "Temporary Electricity", State: Checkbox_TemporaryElectricity.Value }
+            );
+            
+            //各个作业安全控制条例
+            ClearCollect(Gal_HighWorkSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="High Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_ConfinedSpaceSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Confined Space Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_LiftingWorkControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Lifting Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_HotWorkSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Hot Work"),ID,SortOrder.Ascending),"Confirm",false));
+            ClearCollect(Gal_TemporaryElectricityUseWorkSafetyControl,AddColumns(Sort(Filter(TPL_SafetyControl,Not(IsBlank(Content))&&LicenseType="Temporary Electricity Use Work Permit"),ID,SortOrder.Ascending),"Confirm",false));
+            
+            //High表初始化
+            ClearCollect(
+                HW_Tools, 
+                {ToolsN: "自动升降平台/曲臂车", State: Checkbox_Tools1.Value },
+                {ToolsN: "脚手架", State: Checkbox_Tools2.Value },
+                {ToolsN: "梯子", State: Checkbox_Tools3.Value }
+            );
+            Clear(Gal_CollectMsg);
+            Clear(Gal_HW_NameID);
+            Clear(Gal_LW_EquipmentsID);
+            Clear(Gal_LW_NameID);
+            Clear(Gal_LW_CommanderID);
+            Clear(Gal_FW_NameID);
+            Clear(Gal_TEU_NameID);
+            
+            //2
+            Reset(Radio_HWLevel);
+            Reset(TextInput_HWHazard1);
+            Reset(TextInput_HWHazard2);
+            Reset(TextInput_HWHazard3);
+            Reset(Checkbox_Tools1);
+            Reset(Checkbox_Tools2);
+            Reset(Checkbox_Tools3);
+            Reset(TextInput_HWOtherTools);
+            Reset(DataCardValue_ConstructionSchemeHigh);
+            
+            //3
+            Reset(TextInput_SuspendedObject);
+            Reset(TextInput_SuspendedObjectWeight);
+            Reset(TextInput_LiftingCapacity);
+            Reset(TextInput_LWHazard1);
+            Reset(TextInput_LWHazard2);
+            Reset(TextInput_LWHazard3);
+            Reset(DataCardValue_ConstructionSchemeLifting);
+            
+            //4
+            Reset(TextInput_CSW_Worker);
+            Reset(TextInput_CSWHazard1);
+            Reset(TextInput_CSWHazard2);
+            Reset(TextInput_CSWHazard3);
+            Reset(DataCardValue_ConstructionSchemeConfined);
+            Reset(TextInput_Ventilation);
+            
+            //5
+            Reset(TextInput_FWHazard1);
+            Reset(TextInput_FWHazard2);
+            Reset(TextInput_FWHazard3);
+            Reset(TextInput_FWTools);
+            Reset(Radio_FWLevel);
+            Reset(TextInput_FWHazard1_4);
+            Reset(TextInput_FWHazard1_5);
+            Reset(TextInput_FWHazard1_6);
+            Reset(Dropdown_OpDept_4);
+            Reset(DataCardValue_ConstructionSchemeHot);
+            Reset(TextInput_FWOtherTool);
+            Reset(TextInput_FWOtherToolNumber);
+            
+            //6
+            Reset(TextInput_TotalLoad);
+            Reset(TextInput_WorkingVoltage);
+            Reset(TextInput_PowerAccessPoint);
+            Reset(TextInput_TEUHazard1);
+            Reset(TextInput_TEUHazard2);
+            Reset(TextInput_TEUHazard3);
+            Reset(DataCardValue_ConstructionSchemeTemporaryElectricity);
+            
+            Set(Ispatch,true);
+            
+            Set(Ispatch,true);
+            Navigate(DraftSearch);//创建新记录
+        PaddingLeft: =34
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =20
+        Text: ="编辑/退回草稿"
+        Width: =640
+        Y: =509
+        ZIndex: =11
+

@@ -1,0 +1,77 @@
+Login As screen:
+    OnVisible: =ClearCollect(Col_LoginMsg,TPL_Login)
+
+    TextInput_Password As text:
+        Default: =""
+        Height: =70
+        Size: =21
+        Width: =470
+        X: =141
+        Y: =570
+        ZIndex: =2
+
+    Label6 As label:
+        Align: =Align.Center
+        Height: =70
+        Size: =21
+        Text: ="用户名"
+        Width: =141
+        Y: =442
+        ZIndex: =3
+
+    Label6_1 As label:
+        Align: =Align.Center
+        Height: =70
+        Size: =21
+        Text: ="密码"
+        Width: =141
+        Y: =570
+        ZIndex: =4
+
+    Button2 As button:
+        Height: =70
+        OnSelect: |-
+            =If(First(Filter(Col_LoginMsg,UserName=Dropdown_UserName.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BUserName')).Password=TextInput_Password.Text,
+            Set(UserMsg,First(Filter(Col_LoginMsg,UserName=Dropdown_UserName.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BUserName')))
+            &&Set(PersonalMsg,First(Filter(Col_LoginMsg,UserName=Dropdown_UserName.SelectedText.'data-ADB4D7A662F548B49FAC2B986E348A1BUserName')))
+            &&Navigate(home),
+            Notify("登陆密码有误,请重试！")
+            )
+            //判断用户名密码,正确时返回主页并更新用户信息，错误时弹出错误提示
+        Size: =24
+        Text: ="登录"
+        Width: =280
+        X: =331
+        Y: =770
+        ZIndex: =5
+
+    Dropdown_UserName As dropdown:
+        Default: =
+        Height: =70
+        Items: =Filter(Col_LoginMsg,HasAccount=false)
+        Size: =21
+        Width: =470
+        X: =141
+        Y: =442
+        ZIndex: =6
+
+    Button2_1 As button:
+        Height: =70
+        OnSelect: =Navigate(home)
+        Size: =24
+        Text: ="返回"
+        Width: =280
+        X: =30
+        Y: =770
+        ZIndex: =7
+
+    Label21 As label:
+        Align: =Align.Center
+        FontWeight: =FontWeight.Bold
+        Height: =110
+        Size: =35
+        Text: ="无账号人员登录"
+        Width: =640
+        Y: =210
+        ZIndex: =8
+

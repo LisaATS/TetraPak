@@ -1,0 +1,1266 @@
+Manage As screen:
+    OnVisible: |-
+        =ClearCollect(Meun_Manage,{Title:"安全条例管理",State:true},{Title:"人员身份管理",State:false});
+        Select(Menu_Admin,1);
+        Set(Vis_Manage,"安全条例管理");
+        Set(FormState,"Modify");
+        Refresh(TPL_Login);
+        Refresh(TPL_SafetyControl);
+
+    "Menu_Admin As gallery.'BrowseLayout_Horizontal_TwoTextOneImageVariant_ver5.0'":
+        DelayItemLoading: =true
+        Height: =58
+        Items: =Meun_Manage
+        LoadingSpinner: =LoadingSpinner.Data
+        OnSelect: =Set(Vis_Manage,ThisItem.Title)
+        ShowScrollbar: =false
+        TemplateFill: =If(ThisItem.IsSelected,RGBA(0, 0, 0, 0),Color.AliceBlue)
+        TemplatePadding: =0
+        TemplateSize: =Parent.Width/2
+        ZIndex: =1
+
+        Label4_3 As label:
+            FontWeight: =FontWeight.Semibold
+            Height: =58
+            OnSelect: =Set(Vis_Manage,ThisItem.Title)
+            PaddingLeft: =35
+            Size: =20
+            Text: =ThisItem.Title
+            Width: =320
+            ZIndex: =4
+
+    Container_SF_Control As groupContainer.verticalAutoLayoutContainer:
+        Height: =1007
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        Visible: =If(Vis_Manage="安全条例管理",true,false)
+        Width: =640
+        Y: =58
+        ZIndex: =2
+
+        "Gallery5 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            DelayItemLoading: =true
+            Items: =TPL_SafetyControl
+            Layout: =Layout.Vertical
+            LayoutMinHeight: =250
+            LayoutMinWidth: =320
+            LoadingSpinner: =LoadingSpinner.Data
+            TemplatePadding: =0
+            TemplateSize: =90
+            ZIndex: =1
+
+            Title4 As label:
+                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                Height: =25
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =16
+                Text: =ThisItem.LicenseType
+                VerticalAlign: =VerticalAlign.Top
+                Width: =430
+                X: =55
+                ZIndex: =2
+
+            Separator3 As rectangle:
+                Height: =8
+                OnSelect: =Select(Parent)
+                Width: =Parent.TemplateWidth
+                Y: =Parent.TemplateHeight - Self.Height
+                ZIndex: =5
+
+            Rectangle6 As rectangle:
+                Height: =90
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.IsSelected
+                Width: =4
+                ZIndex: =6
+
+            Title4_1 As label:
+                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                Height: =23
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Size: =16
+                Text: =ThisItem.ItemID
+                VerticalAlign: =VerticalAlign.Top
+                Width: =62
+                X: =15
+                ZIndex: =7
+
+            TextInput4 As text:
+                BorderStyle: =BorderStyle.None
+                Default: =ThisItem.Content
+                Height: =59
+                Mode: =TextMode.MultiLine
+                OnChange: |-
+                    =Collect(Gal_Controls,{Content:Self.Text,ID:ThisItem.ID})
+                OnSelect: =Select(Parent)
+                PaddingLeft: =5
+                RadiusBottomLeft: =1
+                RadiusBottomRight: =1
+                RadiusTopLeft: =1
+                RadiusTopRight: =1
+                Width: =613
+                X: =15
+                Y: =31
+                ZIndex: =8
+
+            Label18 As label:
+                Height: =0
+                OnSelect: =Select(Parent)
+                Size: =21
+                Text: =ThisItem.ID
+                Visible: =false
+                Width: =0
+                X: =639
+                ZIndex: =9
+
+        Label17 As label:
+            Color: =RGBA(116, 116, 116, 1)
+            DisplayMode: =DisplayMode.View
+            Height: =30
+            Italic: =true
+            LayoutMinHeight: =70
+            LayoutMinWidth: =560
+            PaddingLeft: =14
+            Size: =12
+            Text: ="Tips：单一项目顺序填写，请勿跳行"
+            Width: =Parent.Width
+            ZIndex: =2
+
+    Container_Admin As groupContainer.verticalAutoLayoutContainer:
+        Height: =1008
+        LayoutDirection: =LayoutDirection.Vertical
+        LayoutMode: =LayoutMode.Auto
+        Visible: =If(Vis_Manage="人员身份管理",true,false)
+        Width: =640
+        Y: =58
+        ZIndex: =3
+
+        Container1 As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            FillPortions: =0
+            Height: =Label18_1.Height
+            LayoutMinHeight: =46
+            LayoutMinWidth: =250
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            ZIndex: =1
+
+            Label18_1 As label:
+                Fill: =RGBA(241, 244, 249, 1)
+                FontWeight: =FontWeight.Bold
+                Height: =46
+                PaddingLeft: =35
+                Size: =14
+                Text: ="用户"
+                Width: =Parent.Width
+                ZIndex: =1
+
+            Icon_New_2 As icon.AddDocument:
+                Height: =31
+                Icon: =Icon.Reload
+                OnSelect: =Refresh(TPL_Login)
+                Tooltip: ="刷新"
+                Width: =36
+                X: =596
+                Y: =7
+                ZIndex: =2
+
+        "Gallery6 As gallery.'BrowseLayout_Vertical_TwoTextOneImageVariant_ver5.0'":
+            DelayItemLoading: =true
+            FillPortions: =0
+            Height: =200
+            Items: =TPL_Login
+            Layout: =Layout.Vertical
+            LayoutMinHeight: =287
+            LayoutMinWidth: =320
+            LoadingSpinner: =LoadingSpinner.Data
+            OnSelect: =Set(FormState,"Modify")
+            TemplatePadding: =0
+            TemplateSize: =40
+            ZIndex: =2
+
+            Title5 As label:
+                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                Height: =25
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.UserName
+                VerticalAlign: =VerticalAlign.Top
+                Width: =171
+                X: =35
+                Y: =7
+                ZIndex: =2
+
+            Separator4 As rectangle:
+                Height: =8
+                OnSelect: =Select(Parent)
+                Width: =Parent.TemplateWidth
+                Y: =Parent.TemplateHeight - Self.Height
+                ZIndex: =5
+
+            Rectangle7 As rectangle:
+                Height: =Parent.TemplateHeight - Separator4.Height
+                OnSelect: =Select(Parent)
+                Visible: =ThisItem.IsSelected
+                Width: =4
+                ZIndex: =6
+
+            Title5_1 As label:
+                FontWeight: =If(ThisItem.IsSelected, FontWeight.Semibold, FontWeight.Normal)
+                Height: =25
+                OnSelect: =Select(Parent)
+                PaddingBottom: =0
+                PaddingLeft: =0
+                PaddingRight: =0
+                PaddingTop: =0
+                Text: =ThisItem.Email
+                VerticalAlign: =VerticalAlign.Top
+                Width: =369
+                X: =250
+                Y: =6
+                ZIndex: =7
+
+        Container1_1 As groupContainer.manualLayoutContainer:
+            DropShadow: =DropShadow.None
+            FillPortions: =0
+            Height: =Label18_2.Height
+            LayoutMinHeight: =46
+            LayoutMinWidth: =250
+            RadiusBottomLeft: =0
+            RadiusBottomRight: =0
+            RadiusTopLeft: =0
+            RadiusTopRight: =0
+            ZIndex: =4
+
+            Icon_New_1 As icon.AddDocument:
+                Height: =46
+                Icon: =Icon.AddDocument
+                OnSelect: =Set(FormState,"New")
+                Tooltip: ="新增用户"
+                Width: =50
+                X: =590
+                ZIndex: =2
+
+            Label18_2 As label:
+                Fill: =RGBA(241, 244, 249, 1)
+                FontWeight: =FontWeight.Bold
+                Height: =46
+                PaddingLeft: =35
+                Size: =14
+                Text: ="用户信息管理"
+                Width: =Parent.Width
+                ZIndex: =3
+
+            Icon_New As icon.AddDocument:
+                Height: =42
+                Icon: =Icon.AddDocument
+                OnSelect: |-
+                    =Set(FormState,"New");
+                    ResetForm(Form_UserMsg);
+                Tooltip: ="新增用户"
+                Width: =50
+                X: =590
+                Y: =4
+                ZIndex: =4
+
+            Icon_New_3 As icon.AddDocument:
+                Color: =RGBA(184, 0, 0, 1)
+                Height: =42
+                Icon: =Icon.Trash
+                OnSelect: |-
+                    =If(PersonalMsg.Email in Concat(Filter(TPL_Login,Administrator=true),Email,";"),
+                    If(Vis_Manage="人员身份管理"&&FormState="Modify",
+                    Remove(TPL_Login,LookUp(TPL_Login,ID=Gallery6.Selected.ID));
+                    Set(FormState,"New");
+                    ResetForm(Form_UserMsg)
+                    )
+                    )
+                Tooltip: ="新增用户"
+                Visible: =If(Vis_Manage="人员身份管理"&&FormState="Modify",true,false)
+                Width: =50
+                X: =509
+                Y: =4
+                ZIndex: =5
+
+        Form_UserMsg As form:
+            DataSource: =TPL_Login
+            DefaultMode: =Switch(FormState,"Modify",FormMode.Edit,"New",FormMode.New)
+            Item: =Gallery6.Selected
+            LayoutMinHeight: =200
+            LayoutMinWidth: =320
+            Width: =640
+            ZIndex: =5
+
+            UserName_DataCard1 As typedDataCard.textualEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="用户名"
+                Default: =ThisItem.UserName
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@TPL_Login],DataSourceInfo.DisplayName,"UserName")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                MaxLength: =DataSourceInfo([@TPL_Login], DataSourceInfo.MaxLength, "UserName")
+                Required: =false
+                Update: =DataCardValue9.Text
+                Width: =640
+                X: =0
+                Y: =0
+                ZIndex: =1
+
+                DataCardKey9 As label:
+                    AutoHeight: =true
+                    Height: =48
+                    Size: =14
+                    Text: ="用户名"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue9 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    Height: =35
+                    HintText: ="输入用户名"
+                    MaxLength: =Parent.MaxLength
+                    PaddingLeft: =5
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =14
+                    Tooltip: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey9.Y + DataCardKey9.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage8 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =24
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue9.Y + DataCardValue9.Height
+                    ZIndex: =3
+
+                StarVisible8 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey9.Height
+                    Size: =21
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey9.Y
+                    ZIndex: =4
+
+            Email_DataCard1 As typedDataCard.textualEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Email"
+                Default: =ThisItem.Email
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@TPL_Login],DataSourceInfo.DisplayName,"Email")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                MaxLength: =DataSourceInfo([@TPL_Login], DataSourceInfo.MaxLength, "Email")
+                Required: =false
+                Update: =DataCardValue1.Text
+                Width: =640
+                X: =0
+                Y: =1
+                ZIndex: =1
+
+                DataCardKey1 As label:
+                    AutoHeight: =true
+                    Height: =48
+                    Size: =14
+                    Text: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue1 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    Height: =35
+                    HintText: ="输入邮箱"
+                    MaxLength: =Parent.MaxLength
+                    PaddingLeft: =5
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =14
+                    Tooltip: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey1.Y + DataCardKey1.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage1 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =24
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue1.Y + DataCardValue1.Height
+                    ZIndex: =3
+
+                StarVisible1 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey1.Height
+                    Size: =21
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey1.Y
+                    ZIndex: =4
+
+            HasAccount_DataCard1 As typedDataCard.toggleEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="HasAccount"
+                Default: =ThisItem.HasAccount
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@TPL_Login],DataSourceInfo.DisplayName,"HasAccount")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =false
+                Update: =DataCardValue3.Value
+                Width: =640
+                X: =0
+                Y: =2
+                ZIndex: =1
+
+                DataCardKey3 As label:
+                    AutoHeight: =true
+                    Height: =48
+                    Size: =14
+                    Text: ="是否拥有利乐账户"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue3 As toggleSwitch:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DisplayMode: =Parent.DisplayMode
+                    FalseText: ="无"
+                    Height: =35
+                    Size: =14
+                    Tooltip: =Parent.DisplayName
+                    TrueText: ="有"
+                    Width: =154
+                    X: =30
+                    Y: =DataCardKey3.Y + DataCardKey3.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage3 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =24
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue3.Y + DataCardValue3.Height
+                    ZIndex: =3
+
+                StarVisible3 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey3.Height
+                    Size: =21
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey3.Y
+                    ZIndex: =4
+
+            Password_DataCard1 As typedDataCard.textualEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Password"
+                Default: =ThisItem.Password
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@TPL_Login],DataSourceInfo.DisplayName,"Password")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                MaxLength: =DataSourceInfo([@TPL_Login], DataSourceInfo.MaxLength, "Password")
+                Required: =false
+                Update: =DataCardValue8.Text
+                Visible: =If(DataCardValue3.Value,false,true)
+                Width: =640
+                X: =0
+                Y: =3
+                ZIndex: =1
+
+                DataCardKey8 As label:
+                    AutoHeight: =true
+                    Height: =48
+                    Size: =14
+                    Text: ="密码"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue8 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    Height: =35
+                    HintText: ="输入密码"
+                    MaxLength: =Parent.MaxLength
+                    PaddingLeft: =5
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =14
+                    Tooltip: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey8.Y + DataCardKey8.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage7 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =24
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue8.Y + DataCardValue8.Height
+                    ZIndex: =3
+
+                StarVisible7 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey8.Height
+                    Size: =21
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey8.Y
+                    ZIndex: =4
+
+            Hod_DataCard1 As typedDataCard.textualEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Hod"
+                Default: =ThisItem.Hod
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@TPL_Login],DataSourceInfo.DisplayName,"Hod")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                MaxLength: =DataSourceInfo([@TPL_Login], DataSourceInfo.MaxLength, "Hod")
+                Required: =false
+                Update: =DataCardValue5.Text
+                Width: =640
+                X: =0
+                Y: =4
+                ZIndex: =1
+
+                DataCardKey5 As label:
+                    AutoHeight: =true
+                    Height: =48
+                    Size: =14
+                    Text: ="负责的部门（没有不填，多个部门中间用 ; 区分）"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue5 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    Height: =35
+                    HintText: ="输入部门名"
+                    MaxLength: =Parent.MaxLength
+                    PaddingLeft: =5
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =14
+                    Tooltip: ="填写负责的部门，多部门用英文“;”区分，例如：印刷;印前"
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey5.Y + DataCardKey5.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage5 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =24
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue5.Y + DataCardValue5.Height
+                    ZIndex: =3
+
+                StarVisible5 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey5.Height
+                    Size: =21
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey5.Y
+                    ZIndex: =4
+
+            HodBackup_DataCard1 As typedDataCard.textualEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="HodBackup"
+                Default: =ThisItem.HodBackup
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@TPL_Login],DataSourceInfo.DisplayName,"HodBackup")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                MaxLength: =DataSourceInfo([@TPL_Login], DataSourceInfo.MaxLength, "HodBackup")
+                Required: =false
+                Update: =DataCardValue10.Text
+                Visible: =If(DataCardValue5.Text<>Blank(),true,false)
+                Width: =640
+                X: =0
+                Y: =5
+                ZIndex: =1
+
+                DataCardKey10 As label:
+                    AutoHeight: =true
+                    Height: =48
+                    Size: =14
+                    Text: ="备用部门负责人"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue10 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    Height: =35
+                    HintText: ="输入邮箱"
+                    MaxLength: =Parent.MaxLength
+                    PaddingLeft: =5
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =14
+                    Tooltip: ="填写邮箱，多人员用英文“;”区分，例如：1@a.com;b@a.com"
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey10.Y + DataCardKey10.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage10 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =24
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue10.Y + DataCardValue10.Height
+                    ZIndex: =3
+
+                StarVisible10 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey10.Height
+                    Size: =21
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey10.Y
+                    ZIndex: =4
+
+            Hoa_DataCard1 As typedDataCard.textualEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Hoa"
+                Default: =ThisItem.Hoa
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@TPL_Login],DataSourceInfo.DisplayName,"Hoa")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                MaxLength: =DataSourceInfo([@TPL_Login], DataSourceInfo.MaxLength, "Hoa")
+                Required: =false
+                Update: =DataCardValue4.Text
+                Width: =640
+                X: =0
+                Y: =6
+                ZIndex: =1
+
+                DataCardKey4 As label:
+                    AutoHeight: =true
+                    Height: =48
+                    Size: =14
+                    Text: ="负责的区域（没有不填，多个部门中间用 ; 区分）"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue4 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    Height: =35
+                    HintText: ="输入部门名"
+                    MaxLength: =Parent.MaxLength
+                    PaddingLeft: =5
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =14
+                    Tooltip: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey4.Y + DataCardKey4.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage4 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =24
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue4.Y + DataCardValue4.Height
+                    ZIndex: =3
+
+                StarVisible4 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey4.Height
+                    Size: =21
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey4.Y
+                    ZIndex: =4
+
+            HoaBackup_DataCard1 As typedDataCard.textualEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="HoaBackup"
+                Default: =ThisItem.HoaBackup
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@TPL_Login],DataSourceInfo.DisplayName,"HoaBackup")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                MaxLength: =DataSourceInfo([@TPL_Login], DataSourceInfo.MaxLength, "HoaBackup")
+                Required: =false
+                Update: =DataCardValue6.Text
+                Visible: =If(DataCardValue4.Text<>Blank(),true,false)
+                Width: =640
+                X: =0
+                Y: =7
+                ZIndex: =1
+
+                DataCardKey6 As label:
+                    AutoHeight: =true
+                    Height: =35
+                    Size: =14
+                    Text: ="备用区域负责人"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue6 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    Height: =35
+                    HintText: ="输入邮箱"
+                    MaxLength: =Parent.MaxLength
+                    PaddingLeft: =5
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =14
+                    Tooltip: ="填写邮箱，多人员用英文“;”区分，例如：1@a.com;b@a.com"
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey6.Y + DataCardKey6.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage9 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =24
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue6.Y + DataCardValue6.Height
+                    ZIndex: =3
+
+                StarVisible9 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey6.Height
+                    Size: =21
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey6.Y
+                    ZIndex: =4
+
+            IsFactoryDirector_DataCard1 As typedDataCard.toggleEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="IsFactoryDirector"
+                Default: =ThisItem.IsFactoryDirector
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@TPL_Login],DataSourceInfo.DisplayName,"IsFactoryDirector")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =false
+                Update: =DataCardValue7.Value
+                Width: =640
+                X: =0
+                Y: =8
+                ZIndex: =1
+
+                DataCardKey7 As label:
+                    AutoHeight: =true
+                    Height: =48
+                    Size: =14
+                    Text: ="是否厂长"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue7 As toggleSwitch:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DisplayMode: =Parent.DisplayMode
+                    FalseText: ="否"
+                    Height: =35
+                    Size: =14
+                    Tooltip: =Parent.DisplayName
+                    TrueText: ="是"
+                    Width: =154
+                    X: =30
+                    Y: =DataCardKey7.Y + DataCardKey7.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage6 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =24
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue7.Y + DataCardValue7.Height
+                    ZIndex: =3
+
+                StarVisible6 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey7.Height
+                    Size: =21
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey7.Y
+                    ZIndex: =4
+
+            FactoryName_DataCard1 As typedDataCard.textualEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="FactoryName"
+                Default: =ThisItem.FactoryName
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@TPL_Login],DataSourceInfo.DisplayName,"FactoryName")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                MaxLength: =DataSourceInfo([@TPL_Login], DataSourceInfo.MaxLength, "FactoryName")
+                Required: =false
+                Update: =DataCardValue2.Text
+                Visible: =If(DataCardValue7.Value,true,false)
+                Width: =640
+                X: =0
+                Y: =9
+                ZIndex: =1
+
+                DataCardKey2 As label:
+                    AutoHeight: =true
+                    Height: =48
+                    Size: =14
+                    Text: ="工厂名"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue2 As text:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DelayOutput: =true
+                    DisplayMode: =Parent.DisplayMode
+                    Height: =35
+                    HintText: ="输入负责的工厂名"
+                    MaxLength: =Parent.MaxLength
+                    PaddingLeft: =5
+                    RadiusBottomLeft: =0
+                    RadiusBottomRight: =0
+                    RadiusTopLeft: =0
+                    RadiusTopRight: =0
+                    Size: =14
+                    Tooltip: =Parent.DisplayName
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardKey2.Y + DataCardKey2.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage2 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =24
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue2.Y + DataCardValue2.Height
+                    ZIndex: =3
+
+                StarVisible2 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey2.Height
+                    Size: =21
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey2.Y
+                    ZIndex: =4
+
+            IsSecurityStaff_DataCard1 As typedDataCard.toggleEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="IsSecurityStaff"
+                Default: =ThisItem.IsSecurityStaff
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@TPL_Login],DataSourceInfo.DisplayName,"IsSecurityStaff")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =false
+                Update: =DataCardValue12.Value
+                Width: =640
+                X: =0
+                Y: =10
+                ZIndex: =1
+
+                DataCardKey12 As label:
+                    AutoHeight: =true
+                    Height: =48
+                    Size: =14
+                    Text: ="是否保安"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue12 As toggleSwitch:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DisplayMode: =Parent.DisplayMode
+                    FalseText: ="否"
+                    Height: =35
+                    Size: =14
+                    Tooltip: =Parent.DisplayName
+                    TrueText: ="是"
+                    Width: =154
+                    X: =30
+                    Y: =DataCardKey12.Y + DataCardKey12.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage12 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =24
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue12.Y + DataCardValue12.Height
+                    ZIndex: =3
+
+                StarVisible12 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey12.Height
+                    Size: =21
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey12.Y
+                    ZIndex: =4
+
+            Administrator_DataCard1 As typedDataCard.toggleEditCard:
+                BorderStyle: =BorderStyle.Solid
+                DataField: ="Administrator"
+                Default: =ThisItem.Administrator
+                DisplayMode: =Parent.DisplayMode
+                DisplayName: =DataSourceInfo([@TPL_Login],DataSourceInfo.DisplayName,"Administrator")
+                Fill: =RGBA(0, 0, 0, 0)
+                Height: =50
+                Required: =false
+                Update: =DataCardValue11.Value
+                Width: =640
+                X: =0
+                Y: =11
+                ZIndex: =1
+
+                DataCardKey11 As label:
+                    AutoHeight: =true
+                    Height: =48
+                    Size: =14
+                    Text: ="是否管理员"
+                    Width: =Parent.Width - 60
+                    Wrap: =false
+                    X: =30
+                    Y: =10
+                    ZIndex: =1
+
+                DataCardValue11 As toggleSwitch:
+                    BorderColor: =If(IsBlank(Parent.Error), Parent.BorderColor, Color.Red)
+                    Default: =Parent.Default
+                    DisplayMode: =Parent.DisplayMode
+                    FalseText: ="否"
+                    Height: =35
+                    Size: =14
+                    Tooltip: =Parent.DisplayName
+                    TrueText: ="是"
+                    Width: =154
+                    X: =30
+                    Y: =DataCardKey11.Y + DataCardKey11.Height + 5
+                    ZIndex: =2
+
+                ErrorMessage11 As label:
+                    AutoHeight: =true
+                    Height: =10
+                    Live: =Live.Assertive
+                    PaddingBottom: =0
+                    PaddingLeft: =0
+                    PaddingRight: =0
+                    PaddingTop: =0
+                    Size: =24
+                    Text: =Parent.Error
+                    Visible: =Parent.DisplayMode=DisplayMode.Edit
+                    Width: =Parent.Width - 60
+                    X: =30
+                    Y: =DataCardValue11.Y + DataCardValue11.Height
+                    ZIndex: =3
+
+                StarVisible11 As label:
+                    Align: =Align.Center
+                    Height: =DataCardKey11.Height
+                    Size: =21
+                    Text: ="*"
+                    Visible: =And(Parent.Required, Parent.DisplayMode=DisplayMode.Edit)
+                    Width: =30
+                    Wrap: =false
+                    Y: =DataCardKey11.Y
+                    ZIndex: =4
+
+    Btn_BackHome As button:
+        BorderThickness: =1
+        FocusedBorderThickness: =1
+        FontWeight: =FontWeight.Normal
+        Height: =30
+        OnSelect: =Navigate(home)
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =12
+        Text: ="返回"
+        Width: =102
+        X: =5
+        Y: =1101
+        ZIndex: =4
+
+    Btn_Modify As button:
+        BorderThickness: =1
+        FocusedBorderThickness: =1
+        FontWeight: =FontWeight.Normal
+        Height: =30
+        OnSelect: |
+            =If(PersonalMsg.Email in Concat(Filter(TPL_Login,Administrator=true),Email,";"),
+            //DisplayMode.Edit
+            Switch(Vis_Manage,
+            //上传修改安全条例管理
+            "安全条例管理",
+            ForAll(
+                Gallery5.AllItems,
+                Patch(
+                    TPL_SafetyControl,
+                    LookUp(TPL_SafetyControl,ID=Int(Label18.Text)),
+                    {Content:TextInput4.Text}
+                )
+            );
+            //修改或上传用户信息
+            "人员身份管理",
+            Switch(FormState,
+            "Modify",
+            Patch(TPL_Login,
+            LookUp(TPL_Login,ID=Gallery6.Selected.ID),
+            {
+            UserName:DataCardValue9.Text,
+            Email:DataCardValue1.Text,
+            Hod:DataCardValue5.Text,
+            HodBackup:If(DataCardValue5.Text<>"",DataCardValue10.Text,""),
+            Hoa:DataCardValue4.Text,
+            HoaBackup:If(DataCardValue4.Text<>"",DataCardValue6.Text,""),
+            HasAccount:DataCardValue3.Value,
+            Password:If(DataCardValue3.Value=false,DataCardValue8.Text,""),
+            IsFactoryDirector:DataCardValue7.Value,
+            FactoryName:If(DataCardValue7.Value=true,DataCardValue2.Text,""),
+            Administrator:DataCardValue11.Value,
+            IsSecurityStaff:DataCardValue12.Value
+            }),
+            "New",
+            If(IsBlank(DataCardValue9.Text)&&IsBlank(DataCardValue1.Text),
+            Notify("姓名邮箱不能为空！"),
+            Patch(TPL_Login,
+            {
+            UserName:DataCardValue9.Text,
+            Email:DataCardValue1.Text,
+            Hod:DataCardValue5.Text,
+            HodBackup:If(DataCardValue5.Text<>"",DataCardValue10.Text,""),
+            Hoa:DataCardValue4.Text,
+            HoaBackup:If(DataCardValue4.Text<>"",DataCardValue6.Text,""),
+            HasAccount:DataCardValue3.Value,
+            Password:If(DataCardValue3.Value=false,DataCardValue8.Text,""),
+            IsFactoryDirector:DataCardValue7.Value,
+            FactoryName:If(DataCardValue7.Value=true,DataCardValue2.Text,""),
+            IsSecurityStaff:DataCardValue12.Value,
+            Administrator:DataCardValue11.Value
+            }));
+            
+            
+            Refresh(TPL_Login);
+            ResetForm(Form_UserMsg)
+            
+            
+            ))
+            );
+            
+            
+            Refresh(TPL_SafetyControl);
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =12
+        Text: ="确认修改"
+        Width: =102
+        X: =532
+        Y: =1101
+        ZIndex: =5
+

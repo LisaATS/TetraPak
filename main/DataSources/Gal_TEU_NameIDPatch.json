@@ -1,0 +1,9 @@
+[
+  {
+    "IsComponentScoped": false,
+    "IsSampleData": false,
+    "IsWritable": true,
+    "Name": "Gal_TEU_NameIDPatch",
+    "Type": "CollectionDataSourceInfo"
+  }
+]

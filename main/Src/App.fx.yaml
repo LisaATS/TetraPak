@@ -1,0 +1,23 @@
+App As appinfo:
+    BackEnabled: =false
+    OnStart: |+
+        =
+        ClearCollect(List_Login,TPL_Login);
+        Set(ShowPhoto,SampleImage);
+        //如果在表里就获取个人信息,不在表中则获取当前用户信息
+        If(Not(IsEmpty(Filter(List_Login,Email=Office365Users.MyProfile().Mail))),
+        Set(PersonalMsg,First(Filter(List_Login,Email=Office365Users.MyProfile().Mail))),
+        Set(PersonalMsg,{UserName:Office365Users.MyProfile().DisplayName,Email:Office365Users.MyProfile().Mail,IsHod:false}));
+        
+        
+        
+        
+    Theme: =PowerAppsTheme
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+

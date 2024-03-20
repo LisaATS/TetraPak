@@ -1,0 +1,643 @@
+Search As screen:
+    OnVisible: |+
+        =Set(SearchID,Gallery2.Selected.ProjID);
+        
+        //刷新数据源
+        Refresh(TPL_Login);
+        ClearCollect(List_Login,TPL_Login);
+        Refresh(TPL_NormalLicence);
+        //ClearCollect(Gal_Search_NormalLicence,Filter(TPL_NormalLicence,ProjState="审批中"));
+        ClearCollect(Gal_Search_NormalLicence,TPL_NormalLicence);
+        
+        //刷新会签部门信息
+        ClearCollect(Current_Normal,Filter(TPL_NormalLicence,ProjID=SearchID));
+        ClearCollect(OtherDeptMsg
+        ,{Dept:"生产",View:First(Current_Normal).OtherProduce,isMine:If("生产" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"生产" in Hod)).HodBackup}
+        ,{Dept:"印前",View:First(Current_Normal).OtherPrepress,isMine:If("印前" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印前" in Hod)).HodBackup}
+        ,{Dept:"印刷",View:First(Current_Normal).OtherPrint,isMine:If("印刷" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印刷" in Hod)).HodBackup}
+        ,{Dept:"复合",View:First(Current_Normal).OtherComposite,isMine:If("复合" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"复合" in Hod)).HodBackup}
+        ,{Dept:"分切",View:First(Current_Normal).OtherCutting,isMine:If("分切" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"分切" in Hod)).HodBackup}
+        ,{Dept:"维修",View:First(Current_Normal).OtherMaintenance,isMine:If("维修" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"维修" in Hod)).HodBackup}
+        ,{Dept:"仓库",View:First(Current_Normal).OtherWarehouse,isMine:If("仓库" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"仓库" in Hod)).HodBackup}
+        ,{Dept:"质量",View:First(Current_Normal).OtherQuality,isMine:If("质量" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"质量" in Hod)).HodBackup}
+        ,{Dept:"WCM",View:First(Current_Normal).OtherWCM,isMine:If("WCM" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"WCM" in Hod)).HodBackup}
+        ,{Dept:"CBRE",View:First(Current_Normal).OtherCBRE,isMine:If("CBRE" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"CBRE" in Hod)).HodBackup});
+        //区域负责人审批表
+        ClearCollect(HoaApprovalMsg
+        ,{Dept:"生产",View:Switch(First(Current_Normal).HoaProduce,"作业区域需审批","待审批"),isMine:If("生产" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"生产" in Hoa)).HoaBackup}
+        ,{Dept:"印前",View:Switch(First(Current_Normal).HoaPrepress,"作业区域需审批","待审批"),isMine:If("印前" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印前" in Hoa)).HoaBackup}
+        ,{Dept:"印刷",View:Switch(First(Current_Normal).HoaPrint,"作业区域需审批","待审批"),isMine:If("印刷" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印刷" in Hoa)).HoaBackup}
+        ,{Dept:"复合",View:Switch(First(Current_Normal).HoaComposite,"作业区域需审批","待审批"),isMine:If("复合" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"复合" in Hoa)).HoaBackup}
+        ,{Dept:"分切",View:Switch(First(Current_Normal).HoaCutting,"作业区域需审批","待审批"),isMine:If("分切" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"分切" in Hoa)).HoaBackup}
+        ,{Dept:"维修",View:Switch(First(Current_Normal).HoaMaintenance,"作业区域需审批","待审批"),isMine:If("维修" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"维修" in Hoa)).HoaBackup}
+        ,{Dept:"仓库",View:Switch(First(Current_Normal).HoaWarehouse,"作业区域需审批","待审批"),isMine:If("仓库" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"仓库" in Hoa)).HoaBackup}
+        ,{Dept:"质量",View:Switch(First(Current_Normal).HoaQuality,"作业区域需审批","待审批"),isMine:If("质量" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"质量" in Hoa)).HoaBackup}
+        ,{Dept:"WCM",View:Switch(First(Current_Normal).HoaWCM,"作业区域需审批","待审批"),isMine:If("WCM" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"WCM" in Hoa)).HoaBackup}
+        ,{Dept:"EHS",View:Switch(First(Current_Normal).HoaEHS,"作业区域需审批","待审批"),isMine:If("EHS" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"EHS" in Hoa)).HoaBackup}
+        ,{Dept:"CBRE",View:Switch(First(Current_Normal).HoaCBRE,"作业区域需审批","待审批"),isMine:If("CBRE" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"CBRE" in Hoa)).HoaBackup});
+        
+
+    Gallery2 As gallery.galleryVertical:
+        BorderThickness: =1
+        DelayItemLoading: =true
+        Height: =847
+        Items: =Filter(Sort(Gal_Search_NormalLicence,ProjID,SortOrder.Descending),ProjState<>"草稿")
+        Layout: =Layout.Vertical
+        LoadingSpinner: =LoadingSpinner.Data
+        OnSelect: |-
+            =Refresh(TPL_NormalLicence);
+            Refresh(TPL_Login);
+            ClearCollect(List_Login,TPL_Login);
+            //ClearCollect(Gal_Search_NormalLicence,TPL_NormalLicence);
+            Set(SearchID,ThisItem.ProjID);//设置搜索ID
+            
+            /*
+            //用来判断是否会签部门负责人之一
+            ClearCollect(Temp_DD,Split(First(Filter(List_Login,UserName=PersonalMsg.UserName)).Hod,";"));
+            ClearCollect(Temp_EE,AddColumns(Temp_DD,"JudgeIsOtherHod",false));
+            ClearCollect(Personal_Hod,Temp_EE);
+            ForAll(
+                Temp_EE,
+                UpdateIf(Personal_Hod,Value=Temp_EE[@Value],
+                If(IsEmpty(Search(Split(ThisItem.OtherDept,";"),Temp_EE[@Value],"Value")),
+                {JudgeIsOtherHod:false},{JudgeIsOtherHod:true}))
+            );
+            //判断你负责的部门意见是否为空
+            ClearCollect(Gal_OtherDeptMsg2,AddColumns(Gal_OtherDeptMsg,"JudgeMyHodView",false));
+            ForAll(Filter(Personal_Hod,JudgeIsOtherHod=true) As A,
+            UpdateIf(Gal_OtherDeptMsg2,Dept=A[@Value]&&IsBlank(View),{JudgeMyHodView:true})
+            );
+            */
+            
+            //刷新会签部门信息
+            ClearCollect(Current_Normal,Filter(TPL_NormalLicence,ProjID=SearchID));
+            ClearCollect(OtherDeptMsg
+            ,{Dept:"生产",View:First(Current_Normal).OtherProduce,isMine:If("生产" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"生产" in Hod)).HodBackup}
+            ,{Dept:"印前",View:First(Current_Normal).OtherPrepress,isMine:If("印前" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印前" in Hod)).HodBackup}
+            ,{Dept:"印刷",View:First(Current_Normal).OtherPrint,isMine:If("印刷" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印刷" in Hod)).HodBackup}
+            ,{Dept:"复合",View:First(Current_Normal).OtherComposite,isMine:If("复合" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"复合" in Hod)).HodBackup}
+            ,{Dept:"分切",View:First(Current_Normal).OtherCutting,isMine:If("分切" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"分切" in Hod)).HodBackup}
+            ,{Dept:"维修",View:First(Current_Normal).OtherMaintenance,isMine:If("维修" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"维修" in Hod)).HodBackup}
+            ,{Dept:"仓库",View:First(Current_Normal).OtherWarehouse,isMine:If("仓库" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"仓库" in Hod)).HodBackup}
+            ,{Dept:"质量",View:First(Current_Normal).OtherQuality,isMine:If("质量" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"质量" in Hod)).HodBackup}
+            ,{Dept:"WCM",View:First(Current_Normal).OtherWCM,isMine:If("WCM" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"WCM" in Hod)).HodBackup}
+            ,{Dept:"CBRE",View:First(Current_Normal).OtherCBRE,isMine:If("CBRE" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"CBRE" in Hod)).HodBackup});
+            //区域负责人审批表
+            ClearCollect(HoaApprovalMsg
+            ,{Dept:"生产",View:Switch(First(Current_Normal).HoaProduce,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("生产" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"生产" in Hoa)).HoaBackup}
+            ,{Dept:"印前",View:Switch(First(Current_Normal).HoaPrepress,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("印前" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印前" in Hoa)).HoaBackup}
+            ,{Dept:"印刷",View:Switch(First(Current_Normal).HoaPrint,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("印刷" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印刷" in Hoa)).HoaBackup}
+            ,{Dept:"复合",View:Switch(First(Current_Normal).HoaComposite,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("复合" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"复合" in Hoa)).HoaBackup}
+            ,{Dept:"分切",View:Switch(First(Current_Normal).HoaCutting,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("分切" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"分切" in Hoa)).HoaBackup}
+            ,{Dept:"维修",View:Switch(First(Current_Normal).HoaMaintenance,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("维修" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"维修" in Hoa)).HoaBackup}
+            ,{Dept:"仓库",View:Switch(First(Current_Normal).HoaWarehouse,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("仓库" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"仓库" in Hoa)).HoaBackup}
+            ,{Dept:"质量",View:Switch(First(Current_Normal).HoaQuality,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("质量" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"质量" in Hoa)).HoaBackup}
+            ,{Dept:"WCM",View:Switch(First(Current_Normal).HoaWCM,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("WCM" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"WCM" in Hoa)).HoaBackup}
+            ,{Dept:"EHS",View:Switch(First(Current_Normal).HoaEHS,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("EHS" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"EHS" in Hoa)).HoaBackup}
+            ,{Dept:"CBRE",View:Switch(First(Current_Normal).HoaCBRE,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("CBRE" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"CBRE" in Hoa)).HoaBackup});
+        TemplateFill: =If(ThisItem.IsSelected,ColorFade(clrMain,0.8),RGBA(0, 0, 0, 0))
+        TemplateSize: =31
+        Width: =604
+        X: =18
+        Y: =176
+        ZIndex: =3
+
+        Label2 As label:
+            Align: =Align.Center
+            Height: =28
+            OnSelect: =Select(Parent)
+            Size: =11
+            Text: =ThisItem.ProjID
+            Width: =60
+            ZIndex: =1
+
+        Label2_1 As label:
+            Align: =Align.Center
+            Height: =30
+            OnSelect: |
+                =Select(Parent)
+            Size: =11
+            Text: =ThisItem.ProjLeader
+            Width: =90
+            X: =60
+            ZIndex: =2
+
+        Label2_2 As label:
+            Align: =Align.Center
+            Height: =30
+            OnSelect: =Select(Parent)
+            Size: =11
+            Text: =ThisItem.ProjState
+            Width: =69
+            X: =512
+            ZIndex: =3
+
+        Rectangle3_18 As rectangle:
+            Height: =30
+            OnSelect: =Select(Parent)
+            Visible: =ThisItem.IsSelected
+            Width: =4
+            ZIndex: =4
+
+        Label2_28 As label:
+            Height: =31
+            OnSelect: |
+                =Select(Parent)
+            Size: =11
+            Text: =ThisItem.ProjName
+            Width: =231
+            X: =158
+            ZIndex: =5
+
+        Label2_18 As label:
+            Align: =Align.Center
+            Height: =30
+            OnSelect: =Select(Parent)
+            Size: =11
+            Text: =If(ThisItem.IsBackUp=true,"是","否")
+            Width: =75
+            X: =421
+            Y: =1
+            ZIndex: =6
+
+    ComboBox1_2 As combobox:
+        BorderThickness: =1
+        DisplayFields: =["ProjName"]
+        FocusedBorderThickness: =1
+        Height: =30
+        InputTextPlaceholder: ="输入项目名称以搜索"
+        IsSearchable: =false
+        Items: =ShowColumns(TPL_NormalLicence,"ProjName")
+        OnChange: =
+        PaddingBottom: =0
+        PaddingTop: =0
+        SearchFields: =["ProjName"]
+        SearchItems: =[]
+        SelectMultiple: =false
+        Size: =12
+        Tooltip: =
+        Width: =607
+        X: =15
+        Y: =42
+        ZIndex: =4
+
+    Dropdown1 As dropdown:
+        BorderThickness: =1
+        FocusedBorderThickness: =1
+        Height: =30
+        Items: =Distinct(TPL_NormalLicence,ProjLeader)
+        Size: =12
+        Tooltip: =
+        Width: =189
+        X: =15
+        Y: =110
+        ZIndex: =5
+
+    Label1 As label:
+        Height: =28
+        Size: =12
+        Text: ="项目名称"
+        Width: =238
+        X: =15
+        Y: =14
+        ZIndex: =6
+
+    Label1_1 As label:
+        Height: =28
+        Size: =12
+        Text: ="项目负责人"
+        Width: =163
+        X: =15
+        Y: =82
+        ZIndex: =7
+
+    Label1_3 As label:
+        Height: =28
+        Size: =12
+        Text: ="项目状态"
+        Width: =77
+        X: =363
+        Y: =82
+        ZIndex: =10
+
+    Dropdown1_1 As dropdown:
+        BorderThickness: =1
+        FocusedBorderThickness: =1
+        Height: =30
+        Items: =["审批中","已拒绝","审批通过","已完成"]
+        Size: =12
+        Tooltip: =
+        Width: =141
+        X: =367
+        Y: =110
+        ZIndex: =11
+
+    Btn_Search As button:
+        BorderThickness: =1
+        FocusedBorderThickness: =1
+        FontWeight: =FontWeight.Normal
+        Height: =30
+        OnSelect: |
+            =ClearCollect(Gal_Search_NormalLicence,
+            If(
+                IsBlank(First(ComboBox1_2.SelectedItems).ProjName),
+            Filter(TPL_NormalLicence,
+            ProjLeader=Dropdown1.SelectedText.Value
+            &&ProjState=Dropdown1_1.SelectedText.Value
+            &&IsBackUp=Switch(Dropdown_IsBackUp.Selected.Value,"是",true,"否",false)),
+            Filter(TPL_NormalLicence,
+            ProjLeader=Dropdown1.SelectedText.Value
+            &&ProjState=Dropdown1_1.SelectedText.Value
+            &&ProjName=First(ComboBox1_2.SelectedItems).ProjName
+            &&IsBackUp=Switch(Dropdown_IsBackUp.Selected.Value,"是",true,"否",false)
+            )
+            
+            ))
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =12
+        Text: ="搜索"
+        Width: =102
+        X: =520
+        Y: =109
+        ZIndex: =12
+
+    Label1_4 As label:
+        Height: =28
+        Size: =11
+        Text: ="项目编号"
+        Width: =70
+        X: =16
+        Y: =148
+        ZIndex: =13
+
+    Label1_5 As label:
+        Height: =28
+        Size: =11
+        Text: ="项目负责人"
+        Width: =127
+        X: =86
+        Y: =148
+        ZIndex: =14
+
+    Label1_6 As label:
+        Height: =28
+        Size: =11
+        Text: ="项目状态"
+        Width: =79
+        X: =536
+        Y: =148
+        ZIndex: =15
+
+    Btn_Look As button:
+        BorderThickness: =1
+        DisplayMode: =If(IsBlank(Gallery2.Selected.ProjID),DisplayMode.Disabled,DisplayMode.Edit)
+        FocusedBorderThickness: =1
+        FontWeight: =FontWeight.Normal
+        Height: =30
+        OnSelect: |+
+            =Set(SearchID,Gallery2.Selected.ProjID);
+            Set(Personal_Identity,"Normal");//当点击查看时身份设置为普通
+            Set(Vis_ApproveWhich,"None");//关闭确认和拒绝的弹窗
+            Set(Vis_PDF,true);
+            Set(Vis_Current,"Normal");
+            Refresh(TPL_Login);
+            ClearCollect(List_Login,TPL_Login);
+            
+            //区域负责人审批表
+            ClearCollect(HoaApprovalMsg
+            ,{Dept:"生产",View:Switch(First(Current_Normal).HoaProduce,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("生产" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"生产" in Hoa)).HoaBackup}
+            ,{Dept:"印前",View:Switch(First(Current_Normal).HoaPrepress,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("印前" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印前" in Hoa)).HoaBackup}
+            ,{Dept:"印刷",View:Switch(First(Current_Normal).HoaPrint,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("印刷" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印刷" in Hoa)).HoaBackup}
+            ,{Dept:"复合",View:Switch(First(Current_Normal).HoaComposite,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("复合" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"复合" in Hoa)).HoaBackup}
+            ,{Dept:"分切",View:Switch(First(Current_Normal).HoaCutting,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("分切" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"分切" in Hoa)).HoaBackup}
+            ,{Dept:"维修",View:Switch(First(Current_Normal).HoaMaintenance,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("维修" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"维修" in Hoa)).HoaBackup}
+            ,{Dept:"仓库",View:Switch(First(Current_Normal).HoaWarehouse,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("仓库" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"仓库" in Hoa)).HoaBackup}
+            ,{Dept:"质量",View:Switch(First(Current_Normal).HoaQuality,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("质量" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"质量" in Hoa)).HoaBackup}
+            ,{Dept:"WCM",View:Switch(First(Current_Normal).HoaWCM,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("WCM" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"WCM" in Hoa)).HoaBackup}
+            ,{Dept:"EHS",View:Switch(First(Current_Normal).HoaEHS,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("EHS" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"EHS" in Hoa)).HoaBackup}
+            ,{Dept:"CBRE",View:Switch(First(Current_Normal).HoaCBRE,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("CBRE" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"CBRE" in Hoa)).HoaBackup});
+            
+            
+            Navigate(Approve);
+            
+            
+            
+            
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =12
+        Text: ="查看"
+        Width: =102
+        X: =522
+        Y: =1042
+        ZIndex: =16
+
+    Btn_Approve As button:
+        BorderThickness: =1
+        DisplayMode: |+
+            =//(可以在表中找到我&该施工单的 申请部门 包含在我负责的部门中||我是申请部门负责人的备用负责人之一)&申请部门负责人意见为空（如果是审批人设置可见并设置身份）
+            If((PersonalMsg.Email in First(Filter(TPL_Login,Gallery2.Selected.ApplicationDept in Hod)).HodBackup
+            ||(Not(IsEmpty(Filter(List_Login,Email=PersonalMsg.Email)))&&Gallery2.Selected.ApplicationDept in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod))
+            &&IsBlank(Gallery2.Selected.ApplLeaderView)
+            &&!IsBlank(Gallery2.Selected.ProjID),
+            DisplayMode.Edit,
+            //申请部门负责人意见为同意&区域负责人意见为空&（施工单的 区域负责人 包含在我负责的区域中||我是区域负责人负责部门的备用负责人之一)
+            If(Gallery2.Selected.ApplLeaderView="同意"
+            &&IsBlank(Gallery2.Selected.OpALeaderView)
+            &&(!IsEmpty(Filter(HoaApprovalMsg,View="待审批"&&isMine=true))
+            ||!IsEmpty(Filter(HoaApprovalMsg,View="待审批"&&AmIBackup=true))),
+            DisplayMode.Edit,
+            //需要其他部门会签&审批总状态为空白&(存在部门未审批并且isMine=true||存在部门未审批并且我是区域负责人负责部门的备用负责人之一)
+            If(Gallery2.Selected.IsOtherDept=true
+            &&!IsBlank(Gallery2.Selected.OpALeaderView)  //区域审批总状态不为空
+            &&IsBlank(Gallery2.Selected.OtherDeptTotalView)
+            &&(!IsEmpty(Filter(OtherDeptMsg,View="待审批"&&isMine=true))
+            ||!IsEmpty(Filter(OtherDeptMsg,View="待审批"&&AmIBackup=true))),
+            DisplayMode.Edit,
+            //判断EHS 
+            If(!IsBlank(Gallery2.Selected.OtherDeptTotalView)  //OtherDeptTotalView=同意/无需
+            &&IsBlank(Gallery2.Selected.EHSView)   //EHS意见为空
+            &&Gallery2.Selected.ProjState<>"已拒绝"
+            &&("EHS" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod//我是EHS负责人
+            ||PersonalMsg.Email in First(Filter(List_Login,"EHS" in Hod)).HodBackup), //我是EHS备用负责人
+            DisplayMode.Edit,
+            
+            //判断厂长
+            If(Gallery2.Selected.NeedFactorDire//需要厂长
+            &&(First(Filter(List_Login,Email=PersonalMsg.Email)).IsFactoryDirector//我是厂长
+            &&First(Filter(List_Login,Email=PersonalMsg.Email)).FactoryName=Gallery2.Selected.FactoryName)//我是该厂长
+            &&!IsBlank(Gallery2.Selected.EHSView)//EHS意见不为空
+            &&IsBlank(Gallery2.Selected.FactoryDirector),//厂长意见为空,
+            DisplayMode.Edit,
+            
+            //保安提供施工牌
+            If(((Gallery2.Selected.NeedFactorDire=true&&!IsBlank(Gallery2.Selected.FactoryDirector))//需要厂长且厂长意见不为空
+            ||(Gallery2.Selected.NeedFactorDire=false&&!IsBlank(Gallery2.Selected.EHSView))) //不需要厂长EHS意见不为空
+            &&IsBlank(Gallery2.Selected.ConstructionPlateID) //施工牌编号为空
+            &&Gallery2.Selected.ProjState<>"已拒绝"
+            &&First(Filter(TPL_Login,PersonalMsg.Email=Email)).IsSecurityStaff=true, //我是保安
+            DisplayMode.Edit,
+            
+            DisplayMode.Disabled
+            ))))))
+            
+            
+        FocusedBorderThickness: =1
+        FontWeight: =FontWeight.Normal
+        Height: =30
+        OnSelect: |+
+            =//ClearCollect(Temp_AA,Split(Gallery2.Selected.OtherDept,";"));
+            //ClearCollect(Temp_BB,Split(Gallery2.Selected.OtherDeptView,";"));
+            //ClearCollect(Temp_CC,Split(Gallery2.Selected.OtherDept,";"),Split(Gallery2.Selected.OtherDeptView,";"));
+            Set(SearchID,Gallery2.Selected.ProjID);
+            
+            //(可以在表中找到我&该施工单的 申请部门 包含在我负责的部门中||我是申请部门负责人的备用负责人之一)&申请部门负责人意见为空（如果是审批人设置可见并设置身份）
+            If((PersonalMsg.Email in First(Filter(TPL_Login,Gallery2.Selected.ApplicationDept in Hod)).HodBackup
+            ||(Not(IsEmpty(Filter(List_Login,Email=PersonalMsg.Email)))&&Gallery2.Selected.ApplicationDept in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod))
+            &&IsBlank(Gallery2.Selected.ApplLeaderView)
+            &&!IsBlank(Gallery2.Selected.ProjID),
+            Set(Personal_Identity,"ApplDeptLeader"),
+            
+            //申请部门负责人意见为同意&区域负责人意见为空&（施工单的 区域负责人 包含在我负责的区域中||我是区域负责人负责部门的备用负责人之一)
+            If(Gallery2.Selected.ApplLeaderView="同意"
+            &&IsBlank(Gallery2.Selected.OpALeaderView)
+            &&(!IsEmpty(Filter(HoaApprovalMsg,View="待审批"&&isMine=true))
+            ||!IsEmpty(Filter(HoaApprovalMsg,View="待审批"&&AmIBackup=true))),
+            Set(Personal_Identity,"OpADeptLeader"),
+            
+            //需要其他部门会签&审批总状态为空白&(存在部门未审批并且isMine=true||存在部门未审批并且我是区域负责人负责部门的备用负责人之一)
+            If(Gallery2.Selected.IsOtherDept=true
+            &&!IsBlank(Gallery2.Selected.OpALeaderView)  //区域审批总状态不为空
+            &&IsBlank(Gallery2.Selected.OtherDeptTotalView)
+            &&(!IsEmpty(Filter(OtherDeptMsg,View="待审批"&&isMine=true))
+            ||!IsEmpty(Filter(OtherDeptMsg,View="待审批"&&AmIBackup=true))),
+            Set(Personal_Identity,"OtherDeptLeader"),
+            
+            //判断EHS
+            If(!IsBlank(Gallery2.Selected.OtherDeptTotalView)  //OtherDeptTotalView=同意/无需
+            &&IsBlank(Gallery2.Selected.EHSView)   //EHS意见为空
+            &&Gallery2.Selected.ProjState<>"已拒绝"
+            &&("EHS" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod//我是EHS负责人
+            ||PersonalMsg.Email in First(Filter(List_Login,"EHS" in Hod)).HodBackup), //我是EHS备用负责人
+            Set(Personal_Identity,"EHSLeader"),
+            
+            //判断厂长
+            If(Gallery2.Selected.NeedFactorDire//需要厂长
+            &&(First(Filter(List_Login,Email=PersonalMsg.Email)).IsFactoryDirector//我是厂长
+            &&First(Filter(List_Login,Email=PersonalMsg.Email)).FactoryName=Gallery2.Selected.FactoryName)//我是该厂长
+            &&!IsBlank(Gallery2.Selected.EHSView)//EHS意见不为空
+            &&IsBlank(Gallery2.Selected.FactoryDirector),//厂长意见为空
+            Set(Personal_Identity,"FactoryDirector"),
+            
+            //保安提供施工牌
+            If(((Gallery2.Selected.NeedFactorDire=true&&!IsBlank(Gallery2.Selected.FactoryDirector))//需要厂长且厂长意见不为空
+            ||(Gallery2.Selected.NeedFactorDire=false&&!IsBlank(Gallery2.Selected.EHSView))) //不需要厂长EHS意见不为空
+            &&IsBlank(Gallery2.Selected.ConstructionPlateID) //施工牌编号为空
+            &&Gallery2.Selected.ProjState<>"已拒绝"
+            &&First(Filter(TPL_Login,PersonalMsg.Email=Email)).IsSecurityStaff=true, //我是保安
+            Set(Personal_Identity,"SubSecurity"),
+            
+            Set(Personal_Identity,"Normal")
+            ))))));
+            
+            //,
+            Set(Vis_ApproveWhich,"None");//关闭确认和拒绝的弹窗
+            
+            Navigate(Approve);
+            Set(ProjState,"");//当前浏览状态为空
+            
+            
+            /*//用来判断是否会签部门负责人之一
+            ClearCollect(Temp_DD,Split(First(Filter(List_Login,UserName=PersonalMsg.UserName)).Hod,";"));
+            ClearCollect(Temp_EE,AddColumns(Temp_DD,"JudgeIsOtherHod",false));
+            ClearCollect(Personal_Hod,Temp_EE);
+            ForAll(
+                Temp_EE,
+                UpdateIf(Personal_Hod,Value=Temp_EE[@Value],
+                If(IsEmpty(Search(Split(Gallery2.Selected.OtherDept,";"),Temp_EE[@Value],"Value")),
+                {JudgeIsOtherHod:false},
+                {JudgeIsOtherHod:true}))
+            );
+            
+            //获取会签表
+            ClearCollect(Gal_OtherDeptMsg,Blank());
+            ForAll(Temp_AA,Collect(Gal_OtherDeptMsg,{Dept:Index(Temp_CC,CountRows(Gal_OtherDeptMsg)+1).Value,
+                View:Index(Temp_CC,CountRows(Gal_OtherDeptMsg)+1+CountRows(Temp_AA)).Value}));
+            //若我是部门负责人则获取我的部门
+            Set(PersonalDept,First(Filter(List_Login,UserName=PersonalMsg.UserName)).Hod);
+            */
+            
+            
+            //刷新会签部门信息
+            Refresh(TPL_Login);
+            ClearCollect(List_Login,TPL_Login);
+            ClearCollect(Current_Normal,Filter(TPL_NormalLicence,ProjID=SearchID));
+            ClearCollect(OtherDeptMsg
+            ,{Dept:"生产",View:First(Current_Normal).OtherProduce,isMine:If("生产" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"生产" in Hod)).HodBackup}
+            ,{Dept:"印前",View:First(Current_Normal).OtherPrepress,isMine:If("印前" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印前" in Hod)).HodBackup}
+            ,{Dept:"印刷",View:First(Current_Normal).OtherPrint,isMine:If("印刷" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印刷" in Hod)).HodBackup}
+            ,{Dept:"复合",View:First(Current_Normal).OtherComposite,isMine:If("复合" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"复合" in Hod)).HodBackup}
+            ,{Dept:"分切",View:First(Current_Normal).OtherCutting,isMine:If("分切" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"分切" in Hod)).HodBackup}
+            ,{Dept:"维修",View:First(Current_Normal).OtherMaintenance,isMine:If("维修" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"维修" in Hod)).HodBackup}
+            ,{Dept:"仓库",View:First(Current_Normal).OtherWarehouse,isMine:If("仓库" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"仓库" in Hod)).HodBackup}
+            ,{Dept:"质量",View:First(Current_Normal).OtherQuality,isMine:If("质量" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"质量" in Hod)).HodBackup}
+            ,{Dept:"WCM",View:First(Current_Normal).OtherWCM,isMine:If("WCM" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"WCM" in Hod)).HodBackup}
+            ,{Dept:"CBRE",View:First(Current_Normal).OtherCBRE,isMine:If("CBRE" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hod,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"CBRE" in Hod)).HodBackup});
+            //区域负责人审批表
+            ClearCollect(HoaApprovalMsg
+            ,{Dept:"生产",View:Switch(First(Current_Normal).HoaProduce,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("生产" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"生产" in Hoa)).HoaBackup}
+            ,{Dept:"印前",View:Switch(First(Current_Normal).HoaPrepress,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("印前" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印前" in Hoa)).HoaBackup}
+            ,{Dept:"印刷",View:Switch(First(Current_Normal).HoaPrint,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("印刷" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"印刷" in Hoa)).HoaBackup}
+            ,{Dept:"复合",View:Switch(First(Current_Normal).HoaComposite,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("复合" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"复合" in Hoa)).HoaBackup}
+            ,{Dept:"分切",View:Switch(First(Current_Normal).HoaCutting,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("分切" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"分切" in Hoa)).HoaBackup}
+            ,{Dept:"维修",View:Switch(First(Current_Normal).HoaMaintenance,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("维修" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"维修" in Hoa)).HoaBackup}
+            ,{Dept:"仓库",View:Switch(First(Current_Normal).HoaWarehouse,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("仓库" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"仓库" in Hoa)).HoaBackup}
+            ,{Dept:"质量",View:Switch(First(Current_Normal).HoaQuality,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("质量" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"质量" in Hoa)).HoaBackup}
+            ,{Dept:"WCM",View:Switch(First(Current_Normal).HoaWCM,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("WCM" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"WCM" in Hoa)).HoaBackup}
+            ,{Dept:"EHS",View:Switch(First(Current_Normal).HoaEHS,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("EHS" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"EHS" in Hoa)).HoaBackup}
+            ,{Dept:"CBRE",View:Switch(First(Current_Normal).HoaCBRE,"作业区域需审批","待审批","作业区域审批通过","同意","作业区域审批拒绝","拒绝"),isMine:If("CBRE" in First(Filter(List_Login,Email=PersonalMsg.Email)).Hoa,true,false),YesOrNo:"",AmIBackup:PersonalMsg.Email in First(Filter(TPL_Login,"CBRE" in Hoa)).HoaBackup});
+            
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =12
+        Text: ="审批"
+        Width: =102
+        X: =20
+        Y: =1042
+        ZIndex: =17
+
+    Btn_Patrol As button:
+        BorderThickness: =1
+        DisplayMode: =If(Gallery2.Selected.ProjState="审批通过"&&Gallery2.Selected.IsPatrol=true&&IsBlank(Gallery2.Selected.ProjLeaderConfirm),DisplayMode.Edit,DisplayMode.Disabled)
+        FocusedBorderThickness: =1
+        FontWeight: =FontWeight.Normal
+        Height: =30
+        OnSelect: |
+            =Set(SearchID,Gallery2.Selected.ProjID);
+            Set(Vis_ApproveWhich,"None");//关闭确认和拒绝的弹窗
+            Set(Personal_Identity,"Patrol");//当前身份为巡检人员
+            //创建新巡检项
+            ClearCollect(Gal_NormalPatrolNew,{InspectionStaff:"",InspectionTime:DateTime(Year(First(Current_Normal).StartTime),Month(First(Current_Normal).StartTime),Day(First(Current_Normal).StartTime),Hour(First(Current_Normal).StartTime),Minute(First(Current_Normal).StartTime),0),InspectionPhoto:SampleImage});
+            Navigate(Approve);
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =12
+        Text: ="巡检"
+        Width: =102
+        X: =406
+        Y: =1042
+        ZIndex: =18
+
+    Btn_ReturnHome As button:
+        BorderThickness: =1
+        FocusedBorderThickness: =1
+        FontWeight: =FontWeight.Normal
+        Height: =30
+        OnSelect: =Navigate(home)
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =12
+        Text: ="返回主页"
+        Width: =102
+        X: =18
+        Y: =1092
+        ZIndex: =19
+
+    Btn_Finished As button:
+        BorderThickness: =1
+        DisplayMode: |
+            =If(Gallery2.Selected.ProjState="审批通过"  //当前项目审批通过
+            &&PersonalMsg.UserName=Gallery2.Selected.ProjLeader  //我是项目负责人
+            &&IsBlank(Gallery2.Selected.ProjLeaderConfirm)  //ProjLeaderConfirm 为空*项目负责人确认状态为空
+            ,DisplayMode.Edit,
+            If(!IsBlank(Gallery2.Selected.ProjLeaderConfirm)  //ProjLeaderConfirm不为空*项目负责人确认状态不为空
+            &&(IsBlank(Gallery2.Selected.SecurityStaffConfirm)||(!IsBlank(Gallery2.Selected.SecurityStaffConfirm)&&Gallery2.Selected.IsReturn=false))
+            &&First(Filter(TPL_Login,PersonalMsg.Email=Email)).IsSecurityStaff, //我是保安,  //SecurityStaffConfirm为空*保安全人状态为空
+            DisplayMode.Edit,DisplayMode.Disabled
+            ))
+        FocusedBorderThickness: =1
+        FontWeight: =FontWeight.Normal
+        Height: =30
+        OnSelect: |-
+            =Set(SearchID,Gallery2.Selected.ProjID);
+            //判断是否最终审批
+            If(Gallery2.Selected.ProjState="审批通过"  //当前项目审批通过
+            &&PersonalMsg.UserName=Gallery2.Selected.ProjLeader  //我是项目负责人
+            &&IsBlank(Gallery2.Selected.ProjLeaderConfirm)  //ProjLeaderConfirm为空*项目负责人确认状态为空
+            ,Set(Personal_Identity,"Confirm"),
+            
+            If(!IsBlank(Gallery2.Selected.ProjLeaderConfirm)  //ProjLeaderConfirm不为空*项目负责人确认状态不为空
+            &&(IsBlank(Gallery2.Selected.SecurityStaffConfirm)||(!IsBlank(Gallery2.Selected.SecurityStaffConfirm)&&Gallery2.Selected.IsReturn=false)) //SecurityStaffConfirm为空*保安状态为空
+            &&First(Filter(TPL_Login,PersonalMsg.Email=Email)).IsSecurityStaff, //我是保安
+            Set(Personal_Identity,"Security"),
+            Set(Personal_Identity,"Normal")
+            ));
+            
+            Set(Vis_ApproveWhich,"None");//关闭确认和拒绝的弹窗
+            Navigate(Approve);
+            
+            
+            /*If(Not(IsEmpty(Filter(List_Login,UserName=PersonalMsg.UserName)))
+            &&Gallery2.Selected.ApplicationDept in First(Filter(List_Login,UserName=PersonalMsg.UserName)).Hod 
+            &&IsBlank(Gallery2.Selected.ApplLeaderView),*/
+        RadiusBottomLeft: =2
+        RadiusBottomRight: =2
+        RadiusTopLeft: =2
+        RadiusTopRight: =2
+        Size: =12
+        Text: ="完工确认"
+        Width: =102
+        X: =520
+        Y: =1092
+        ZIndex: =20
+
+    Label1_14 As label:
+        Height: =28
+        Size: =11
+        Text: ="项目名称"
+        Width: =185
+        X: =178
+        Y: =148
+        ZIndex: =21
+
+    Dropdown_IsBackUp As dropdown:
+        BorderThickness: =1
+        FocusedBorderThickness: =1
+        Height: =30
+        Items: =["是","否"]
+        Size: =12
+        Tooltip: =
+        Width: =134
+        X: =218
+        Y: =110
+        ZIndex: =22
+
+    Label1_7 As label:
+        Height: =28
+        Size: =12
+        Text: ="是否备案"
+        Width: =118
+        X: =218
+        Y: =82
+        ZIndex: =23
+
+    Label1_12 As label:
+        Height: =28
+        Size: =11
+        Text: ="是否备案"
+        Width: =79
+        X: =448
+        Y: =148
+        ZIndex: =24
+

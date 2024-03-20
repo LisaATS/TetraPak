@@ -1,0 +1,29 @@
+PhotoGraph As screen:
+
+    Rectangle3 As rectangle:
+        BorderColor: =RGBA(215, 223, 240, 1)
+        DisabledFill: =RGBA(241, 244, 249, 1)
+        DisplayMode: =DisplayMode.View
+        Fill: =RGBA(241, 244, 249, 1)
+        Height: =1136
+        HoverFill: =RGBA(241, 244, 249, 1)
+        PressedFill: =RGBA(241, 244, 249, 1)
+        Width: =640
+        ZIndex: =1
+
+    Image4_1 As image:
+        DisplayMode: =DisplayMode.View
+        Height: =Parent.Height
+        Image: =ShowPhoto
+        Width: =Parent.Width
+        ZIndex: =2
+
+    Icon_CameraBack_1 As icon.BackArrow:
+        Height: =45
+        Icon: =Icon.BackArrow
+        OnSelect: =Switch(WhereBack,"ApplyLicence",Navigate(ApplyLicence),"Approve",Navigate(Approve),"Draft",Navigate(DraftEdit))
+        Width: =45
+        X: =24
+        Y: =23
+        ZIndex: =3
+
