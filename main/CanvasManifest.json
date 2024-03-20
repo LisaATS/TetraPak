@@ -119,13 +119,13 @@
     "InstrumentationKey": "",
     "LocalDatabaseReferences": "",
     "ManualOfflineProfileId": "",
-    "Name": "Tetra Pak Licenses",
+    "Name": "Tetra Pak Licenses Git",
     "OriginatingVersion": "1.334",
     "ParserErrorCount": 0,
     "ShowStatusBar": false
   },
   "PublishInfo": {
-    "AppName": "Tetra Pak Licenses",
+    "AppName": "Tetra Pak Licenses Git",
     "BackgroundColor": "RGBA(0,176,240,1)",
     "IconColor": "RGBA(255,255,255,1)",
     "IconName": "Library",

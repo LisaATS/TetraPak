@@ -25547,7 +25547,7 @@
       "MetaDataIDKey": "",
       "Name": "Gallery3_10",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 1,
+      "ParentIndex": 2,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -25821,7 +25821,7 @@
       "MetaDataIDKey": "",
       "Name": "Gallery3_11",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 1,
+      "ParentIndex": 2,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -26361,7 +26361,7 @@
       "MetaDataIDKey": "",
       "Name": "Gallery3_13",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 3,
+      "ParentIndex": 4,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -26630,7 +26630,7 @@
       "MetaDataIDKey": "",
       "Name": "Gallery3_9",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 1,
+      "ParentIndex": 2,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -52715,7 +52715,7 @@
       "MetaDataIDKey": "",
       "Name": "Label1_299",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 2,
+      "ParentIndex": 1,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -53027,7 +53027,7 @@
       "MetaDataIDKey": "",
       "Name": "Label1_300",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 2,
+      "ParentIndex": 1,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -53332,7 +53332,7 @@
       "MetaDataIDKey": "",
       "Name": "Label1_301",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 2,
+      "ParentIndex": 1,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -68187,7 +68187,7 @@
       "MetaDataIDKey": "",
       "Name": "Label1_483",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 4,
+      "ParentIndex": 3,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {

@@ -18949,7 +18949,7 @@
       "MetaDataIDKey": "",
       "Name": "Gallery3_4",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 3,
+      "ParentIndex": 4,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -19218,7 +19218,7 @@
       "MetaDataIDKey": "",
       "Name": "Gallery3_5",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 11,
+      "ParentIndex": 12,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -19492,7 +19492,7 @@
       "MetaDataIDKey": "",
       "Name": "Gallery3_6",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 1,
+      "ParentIndex": 2,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -19766,7 +19766,7 @@
       "MetaDataIDKey": "",
       "Name": "Gallery3_7",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 1,
+      "ParentIndex": 2,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -20047,7 +20047,7 @@
       "MetaDataIDKey": "",
       "Name": "Gallery3_8",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 1,
+      "ParentIndex": 2,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -46449,7 +46449,7 @@
       "MetaDataIDKey": "",
       "Name": "Label1_294",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 4,
+      "ParentIndex": 3,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -46754,7 +46754,7 @@
       "MetaDataIDKey": "",
       "Name": "Label1_295",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 12,
+      "ParentIndex": 11,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -47066,7 +47066,7 @@
       "MetaDataIDKey": "",
       "Name": "Label1_296",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 2,
+      "ParentIndex": 1,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -47371,7 +47371,7 @@
       "MetaDataIDKey": "",
       "Name": "Label1_297",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 2,
+      "ParentIndex": 1,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
@@ -47683,7 +47683,7 @@
       "MetaDataIDKey": "",
       "Name": "Label1_298",
       "OptimizeForDevices": "Off",
-      "ParentIndex": 2,
+      "ParentIndex": 1,
       "PersistMetaDataIDKey": false,
       "Properties": [
         {
